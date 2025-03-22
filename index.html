@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Password</title>
+    <script>
+        async function hashPassword() {
+            const password = document.getElementById("password").value;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+            document.getElementById("hashedPassword").value = hashHex;
+        }
+    </script>
+</head>
+<body>
+    <h2>Hash Password dengan SHA-256</h2>
+    <label for="password">Masukkan Password:</label>
+    <input type="password" id="password">
+    <button onclick="hashPassword()">Hash Password</button>
+    <br><br>
+    <label for="hashedPassword">Hasil Hash:</label>
+    <input type="text" id="hashedPassword" readonly>
+</body>
+</html>
